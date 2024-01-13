@@ -1,0 +1,4 @@
+[{"seq": 0, "rfid": "10001", "item": "xxx", "lm": "1200", "diameter": "120", "kg": "12","state": 0,"scan": "2023/12/18/7:00PM"},
+{"seq": 1, "rfid": "10002", "item": "yyy", "lm": "1200", "diameter": "120", "kg": "12","state": 1,"scan": "2023/12/19/7:00PM"},
+  {"seq": 2, "rfid": "10003", "item": "zzz", "lm": "1200", "diameter": "120", "kg": "12","state": 1,"scan": "2023/12/18/11:00PM"}
+]
