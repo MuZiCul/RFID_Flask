@@ -1,0 +1,13 @@
+import uuid
+SCHEDULER_TIMEZONE = 'Asia/Shanghai'
+SQL_HOSTNAME = 'you rdb host'
+SQL_PORT = 'you rdb port'
+SQL_DATABASE = 'rfid_test'
+SQL_USERNAME = 'rfid_test'
+SQL_PASSWORD = 'rfid_test'
+DB_URI = f'mysql+pymysql://{SQL_USERNAME}:{SQL_PASSWORD}@{SQL_HOSTNAME}:{SQL_PORT}/{SQL_DATABASE}?charset=utf8'
+SQLALCHEMY_DATABASE_URI = DB_URI
+SQLALCHEMY_TRACK_MODIFICATIONS = True
+SECRET_KEY = str(uuid.uuid1())
+
+# 使用前删除文件后缀.example
