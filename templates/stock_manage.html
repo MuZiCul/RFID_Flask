@@ -2,19 +2,25 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>镜像站@Layui</title>
+    <title>OA</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="https://cdn.bootcdn.net/ajax/libs/toastr.js/2.1.3/toastr.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='layui/css/layui.css') }}" media="all">
     <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/toastr.js/2.1.3/toastr.min.js"></script>
     <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
 <body>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+    <legend>货物库存查询</legend>
+</fieldset>
+
 <div style="margin-top: 20px;border: 1px solid #eee;">
     <div style="padding: 1px" class="demoTable">
         <div class="layui-inline" style="width: 90%;">
-            <input placeholder="Please enter a RFID number to search" class="layui-input" id="demoReload"
+            <input placeholder="Please enter a keyword to search" class="layui-input" id="demoReload"
                    style="border: none;border-style: unset">
         </div>
         <div class="layui-inline layui-word-aux layui-font-gray" style="float: right;padding-right: unset">
@@ -23,48 +29,58 @@
         </div>
     </div>
 </div>
+
 <table class="layui-hide" id="test" lay-filter="test"></table>
-<script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="change">Edit</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">Delete</a>
-</script>
 <script src="{{ url_for('static', filename='layui/layui.js') }}"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述 JS 路径需要改成你本地的 -->
 
 <script>
     layui.use('table', function () {
         var table = layui.table;
-
-        //温馨提示：默认由前端自动合计当前行数据。从 layui 2.5.6 开始： 若接口直接返回了合计行数据，则优先读取接口合计行数据。
-        //详见：https://www.layui.com/doc/modules/table.html#totalRow
         table.render({
             elem: '#test'
-            , url: '/tags_info'/*tpa=http://www.layui.com/test/table/demo1.json*/
+            , url: '/stock_check_data'
             , toolbar: '#toolbarDemo'
-            , title: 'tags_info'
+            , title: 'inbound_manage_data'
+            , even: 'true'
             , id: 'testReload'
             , totalRow: true
+            , page: 'true'
             , cols: [[
-                {type: 'checkbox', fixed: 'left'}
-                , {field: 'seq', title: 'Tag Sequence'}
-                , {field: 'rfid', title: 'Tag Number'}
-                , {field: 'item', title: 'Item Name'}
-                , {field: 'lm', title: 'Linear Meter'}
-                , {field: 'diameter', title: 'Diameter'}
-                , {field: 'kg', title: 'KG'}
-                , {field: 'state', title: 'Scanning state',templet: function (res) {
-                    if (res.state === 0) {
-                        return '<span class="layui-badge layui-bg-red">No</span>';
-                    } else if (res.state === 1) {
-                        return '<span class="layui-badge layui-bg-green">Yes</span>';
-                    } else{
-                        return '<span class="layui-badge layui-bg-red">UnKnown</span>';
+                {
+                    field: 'id', align: 'center', title: 'Tag Sequence', templet: function (res) {
+                        return ('0000' + res.id).slice(-4);
                     }
-                    }}
-                , {field: 'scan', title: 'Scanning time',}
-                , {fixed: 'right', align: 'center', title: 'operation', width: 134, minWidth: 125, toolbar: '#barDemo'}
+                }
+                , {field: 'rfid', align: 'center', title: 'RFID'}
+                , {field: 'lm', align: 'center', title: 'Linear Meter'}
+                , {field: 'diameter', align: 'center', title: 'Diameter'}
+                , {field: 'kg', align: 'center', title: 'KG'}
+                , {field: 'num', align: 'center', title: 'No. Of Goods'}
+                , {field: 'batch', align: 'center', title: 'Batch No.'}
+                , {
+                    field: 'state', align: 'center', title: 'State', templet: function (res) {
+                        if (res.state === 0) {
+                            return '损坏'
+                        } else if (res.state === 1) {
+                            return '正常'
+                        } else if (res.state === 2) {
+                            return '丢失'
+                        } else if (res.state === 3) {
+                            return '返工'
+                        } else if (res.state === 4) {
+                            return '重新入库'
+                        } else if (res.state === 5) {
+                            return '部分出库'
+                        } else if (res.state === 6) {
+                            return '全部出库'
+                        }
+
+                    }
+                }
+                , {field: 'create_date', align: 'center', title: '订单时间'}
             ]]
-            , page: true
+            {#, page: true#}
         });
         var $ = layui.$, active = {
             reload: function () {
@@ -91,12 +107,9 @@
             if (obj.event === 'del') {
                 layer.confirm('Do you really delete the data in this row?', function (index) {
                     $.ajax({
-                        url: '/user_del', method: 'get', data: {'id': data.id}, success: function (data) {
+                        url: '/inbound_del', method: 'get', data: {'id': data.id}, success: function (data) {
                             layer.msg(data.msg)
-                            if (data.code === '200') {
-                                obj.del();
-                            }
-                            if (data.code === 200) {
+                            if (200 === data.code || '200' === data.code) {
                                 obj.del();
                             }
                             layer.close(index);
@@ -104,7 +117,7 @@
                     })
                 });
             } else if (obj.event === 'change') {
-                window.location.href = '/change_user/' + obj.data.id;
+                window.location.href = '/change_inbound/' + obj.data.id;
             }
         });
     });

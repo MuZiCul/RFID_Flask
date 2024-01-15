@@ -73,21 +73,19 @@
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree" lay-filter="test">
 
-                <li class="layui-nav-item ">
+                <li class="layui-nav-item layui-nav-itemed">
                     <a href="javascript:;">
-                        <i class="layui-icon layui-icon-file" style="font-size: 14px; margin-right: 5px;"></i>
+                        <i class="layui-icon layui-icon-next" style="font-size: 14px; margin-right: 5px;"></i>
                         <cite>入库</cite>
                     </a>
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;" onclick="open_page('add_inbound_html')">入库货物</a></dd>
-                        <dd><a href="javascript:;" onclick="open_page('inbound_manage')">入库管理</a></dd>
-                        <dd><a href="javascript:;" onclick="open_page('location_manage')">货物位置</a></dd>
-                        {#                        <dd><a href="javascript:;" onclick="open_page('user_add')">新增用户</a></dd>#}
+                        <dd class="layui-this"><a href="javascript:;" onclick="open_page('inbound_manage')">入库管理</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item ">
                     <a href="javascript:;">
-                        <i class="layui-icon layui-icon-file" style="font-size: 14px; margin-right: 5px;"></i>
+                        <i class="layui-icon layui-icon-prev" style="font-size: 14px; margin-right: 5px;"></i>
                         <cite>出库</cite>
                     </a>
                     <dl class="layui-nav-child">
@@ -98,21 +96,25 @@
                 </li>
                 <li class="layui-nav-item ">
                     <a href="javascript:;">
-                        <i class="layui-icon layui-icon-file" style="font-size: 14px; margin-right: 5px;"></i>
+                        <i class="layui-icon layui-icon-form" style="font-size: 14px; margin-right: 5px;"></i>
                         <cite>库存</cite>
                     </a>
                     <dl class="layui-nav-child">
-{#                        <dd><a href="javascript:;" onclick="open_page('items_html')">Goods .MGMT</a></dd>#}
-{#                        <dd><a href="javascript:;" onclick="open_page('tags_html')">RFID .MGMT</a></dd>#}
-                        <dd><a href="javascript:;" onclick="open_page('inventory_check')">库存查询</a></dd>
-                        <dd><a href="javascript:;" onclick="open_page('notice_setting')">通知设置</a></dd>
+                        <dd><a href="javascript:;" onclick="open_page('inventory_check')">变动记录</a></dd>
+                        <dd><a href="javascript:;" onclick="open_page('stock_check')">库存查询</a></dd>
+                    <dd><a href="javascript:;" onclick="open_page('location_manage')">位置查询</a></dd>
+                        {% if user %}
+                            {% if user.type==1 %}
+                                <dd><a href="javascript:;" onclick="open_page('notice_setting')">通知设置</a></dd>
+                            {% endif %}
+                        {% endif %}
                     </dl>
                 </li>
                 {% if user %}
                     {% if user.type==1 %}
                         <li class="layui-nav-item ">
                             <a href="javascript:;">
-                                <i class="layui-icon layui-icon-file" style="font-size: 14px; margin-right: 5px;"></i>
+                                <i class="layui-icon layui-icon-user" style="font-size: 14px; margin-right: 5px;"></i>
                                 <cite>用户</cite>
                             </a>
                             <dl class="layui-nav-child">
@@ -122,10 +124,10 @@
                         </li>
                     {% endif %}
                 {% endif %}
-                <li class="layui-nav-item layui-nav-itemed">
+                <li class="layui-nav-item">
                     <a href="javascript:;" onclick="window.location.href='/logoff'">
                         <i class="layui-icon layui-icon-logout" style="font-size: 14px; margin-right: 5px;"></i>
-                        <cite>LogOut</cite>
+                        <cite>退出</cite>
                     </a>
                 </li>
             </ul>

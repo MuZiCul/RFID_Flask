@@ -303,3 +303,36 @@ def user_register():
     db.session.add(user)
     db.session.commit()
     return jsonify({'code': 200, 'msg': 'SUCCESS'})
+
+
+@bp.route('/change_user/<id_>', methods=['GET', 'POST'])
+@login_required
+def change_user(id_):
+    user = UserModel.query.filter_by(id=id_).first()
+    data = {'username': user.username, 'email': user.email, 'phone': user.phone,
+            'id': id_, 'sex': user.sex, 'type': user.type}
+    return render_template('user_change.html', data=data)
+
+
+@bp.route('/change_user_data', methods=['GET', 'POST'])
+@login_required
+def change_user_data():
+    username = request.form.get('username')
+    id_ = request.form.get('id')
+    email = request.form.get('email')
+    sex = int(request.form.get('sex'))
+    password = request.form.get('password')
+    type = int(request.form.get('type'))
+    phone = request.form.get('phone')
+    user = UserModel.query.filter_by(id=id_).first()
+    user.username = username
+    if password:
+        user.password = generate_password_hash(password)
+    user.email = email
+    user.sex = sex
+    user.type = type
+    user.phone = phone
+    db.session.commit()
+    return jsonify({'code': 200, 'msg': 'SUCCESS'})
+
+

@@ -14,21 +14,21 @@
 </head>
 <body>
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
-    <legend>inventory_check</legend>
+    <legend>库存数量变动记录查询</legend>
 </fieldset>
 
-{#<div style="margin-top: 20px;border: 1px solid #eee;">#}
-{#    <div style="padding: 1px" class="demoTable">#}
-{#        <div class="layui-inline" style="width: 90%;">#}
-{#            <input placeholder="Please enter a keyword to search" class="layui-input" id="demoReload"#}
-{#                   style="border: none;border-style: unset">#}
-{#        </div>#}
-{#        <div class="layui-inline layui-word-aux layui-font-gray" style="float: right;padding-right: unset">#}
-{#            <button class="layui-btn layui-btn-primary" data-type="reload" style="border: none;" title="SearchFile">#}
-{#                <i class="layui-icon layui-icon-search"></i></button>#}
-{#        </div>#}
-{#    </div>#}
-{#</div>#}
+<div style="margin-top: 20px;border: 1px solid #eee;">
+    <div style="padding: 1px" class="demoTable">
+        <div class="layui-inline" style="width: 90%;">
+            <input placeholder="Please enter a keyword to search" class="layui-input" id="demoReload"
+                   style="border: none;border-style: unset">
+        </div>
+        <div class="layui-inline layui-word-aux layui-font-gray" style="float: right;padding-right: unset">
+            <button class="layui-btn layui-btn-primary" data-type="reload" style="border: none;" title="SearchFile">
+                <i class="layui-icon layui-icon-search"></i></button>
+        </div>
+    </div>
+</div>
 
 <table class="layui-hide" id="test" lay-filter="test"></table>
 <script src="{{ url_for('static', filename='layui/layui.js') }}"></script>
@@ -47,11 +47,11 @@
             , totalRow: true
             ,page: 'true'
             , cols: [[
-                {field: 'id', align: 'center', title: 'id', templet: function (res) {
+                {field: 'id', align: 'center', title: 'ID', templet: function (res) {
                         return ('0000' + res.id).slice(-4);
                     }}
-                ,{field: 'num', align: 'center', title: 'num'}
-                , {field: 'create_date', align: 'center', title: 'create_date'}
+                ,{field: 'num', align: 'center', title: 'No. Of Goods'}
+                , {field: 'create_date', align: 'center', title: 'Query Time'}
             ]]
             {#, page: true#}
         });
@@ -82,10 +82,7 @@
                     $.ajax({
                         url: '/user_del', method: 'get', data: {'id': data.id}, success: function (data) {
                             layer.msg(data.msg)
-                            if (data.code === '200') {
-                                obj.del();
-                            }
-                            if (data.code === 200) {
+                            if (200 === data.code || '200' === data.code) {
                                 obj.del();
                             }
                             layer.close(index);

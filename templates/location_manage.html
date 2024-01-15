@@ -14,7 +14,7 @@
 </head>
 <body>
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
-    <legend>location_manage</legend>
+    <legend>货物位置查询 --- Total Quantity：{{ total }}</legend>
 </fieldset>
 
 <div style="margin-top: 20px;border: 1px solid #eee;">
@@ -46,12 +46,9 @@
             , id: 'testReload'
             , totalRow: true
             ,page: 'true'
-            , cols: [[
-                {field: 'id', align: 'center', title: 'ID', templet: function (res) {
-                        return ('0000' + res.id).slice(-4);
-                    }}
-                ,{field: 'rfid', align: 'center', title: 'RFID'}
-                ,{field: 'warehouse', align: 'center', title: 'Warehouse'}
+            , cols: [[{field: 'rfid', align: 'center', title: 'RFID'}
+                ,{field: 'num', align: 'center', title: 'No. Of Goods'}
+                ,{field: 'warehouse', align: 'center', title: 'WarehouseID'}
                 , {field: 'create_date', align: 'center', title: 'create_date'}
             ]]
             {#, page: true#}
@@ -83,10 +80,7 @@
                     $.ajax({
                         url: '/user_del', method: 'get', data: {'id': data.id}, success: function (data) {
                             layer.msg(data.msg)
-                            if (data.code === '200') {
-                                obj.del();
-                            }
-                            if (data.code === 200) {
+                            if (200 === data.code || '200' === data.code) {
                                 obj.del();
                             }
                             layer.close(index);

@@ -15,57 +15,56 @@
 </head>
 <body>
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
-    <legend>新增用户</legend>
+    <legend>填写新增用户信息</legend>
 </fieldset>
 <form class="layui-form" action="form.html" lay-filter="demo-val-filter">
     <div class="layui-form-item">
         <label class="layui-form-label">name</label>
         <div class="layui-input-block">
-            <input type="text" name="username" lay-verify="title" autocomplete="off" placeholder="请输入" required
+            <input type="text" name="username" lay-verify="required" autocomplete="off" placeholder="请输入" required
                    class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">password</label>
         <div class="layui-input-block">
-            <input type="text" name="password" lay-verify="title" autocomplete="off" placeholder="请输入" required
+            <input type="password" lay-affix="eye" name="password" lay-verify="required" autocomplete="off" placeholder="请输入" required
                    class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">email</label>
         <div class="layui-input-block">
-            <input type="email" name="email" lay-verify="title" autocomplete="off" placeholder="请输入" required
+            <input type="email" name="email" lay-verify="required|email" autocomplete="off" placeholder="请输入" required
                    class="layui-input">
         </div>
     </div>
-        <div class="layui-form-item">
+    <div class="layui-form-item">
         <label class="layui-form-label">phone</label>
         <div class="layui-input-block">
-            <input type="text" name="phone" lay-verify="title" autocomplete="off" placeholder="请输入" required
+            <input type="text" name="phone" autocomplete="off" placeholder="请输入" required
                    class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">sex</label>
         <div class="layui-input-block">
-<input type="radio" name="sex" value="1" title="man" checked>
-<input type="radio" name="sex" value="0" title="woman">
+            <input type="radio" name="sex" value="1" title="man" checked>
+            <input type="radio" name="sex" value="0" title="woman">
         </div>
     </div>
-      <div class="layui-form-item">
-    <label class="layui-form-label">role</label>
-    <div class="layui-input-block">
-      <select name="type" lay-filter="aihao">
-        <option value="" selected="">please select</option>
-<option value="1">admin</option>
-          <option value="0">other</option>
-      </select>
+    <div class="layui-form-item">
+        <label class="layui-form-label">role</label>
+        <div class="layui-input-block">
+            <select name="type">
+                <option value="1">admin</option>
+                <option value="0" selected>other</option>
+            </select>
+        </div>
     </div>
-  </div>
     <div class="layui-form-item">
         <div class="layui-input-block">
-            <button type="submit" class="layui-btn" lay-submit lay-filter="demo-val">确认</button>
+            <button type="submit" class="layui-btn" lay-submit lay-filter="demo-val">添加</button>
             <button type="button" onclick="window.history.back ();" class="layui-btn layui-btn-primary">取消</button>
         </div>
     </div>
@@ -88,7 +87,7 @@
                 url: '/user_register', method: 'post', data: field, success: function (data) {
                     if (200 === data.code || '200' === data.code) {
                         layer.msg(data.msg)
-                    }else {
+                    } else {
                         layer.msg(data.msg)
                     }
                 }

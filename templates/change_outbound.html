@@ -15,7 +15,7 @@
 </head>
 <body>
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
-    <legend>change_outbound_data</legend>
+    <legend>出库货物详情</legend>
 </fieldset>
 <form class="layui-form" action="form.html" lay-filter="demo-val-filter">
     {#    <div class="layui-btn-container" style="margin-bottom: 6px; text-align: center;">#}
@@ -25,14 +25,14 @@
     <div class="layui-form-item">
         <label class="layui-form-label">Sequence</label>
         <div class="layui-input-block">
-            <input type="text" name="id" lay-verify="title" autocomplete="off" placeholder="请输入" readonly
+            <input type="text" name="id" lay-verify="required" autocomplete="off" placeholder="请输入" readonly
                    class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">RFID</label>
         <div class="layui-input-block">
-            <input type="text" name="rfid" lay-verify="title" autocomplete="off" placeholder="请输入"
+            <input type="text" name="rfid" lay-verify="required" autocomplete="off" placeholder="请输入" readonly
                    class="layui-input">
         </div>
     </div>
@@ -40,48 +40,58 @@
         <div class="layui-form-item">
         <label class="layui-form-label">Linear Meter</label>
         <div class="layui-input-block">
-            <input type="text" name="lm" lay-verify="title" autocomplete="off" placeholder="请输入"
+            <input type="text" name="lm" lay-verify="required" autocomplete="off" placeholder="请输入"
                    class="layui-input">
         </div>
     </div>
         <div class="layui-form-item">
         <label class="layui-form-label">Diameter</label>
         <div class="layui-input-block">
-            <input type="text" name="diameter" lay-verify="title" autocomplete="off" placeholder="请输入"
+            <input type="text" name="diameter" lay-verify="required" autocomplete="off" placeholder="请输入"
                    class="layui-input">
         </div>
     </div>
         <div class="layui-form-item">
         <label class="layui-form-label">KG</label>
         <div class="layui-input-block">
-            <input type="text" name="kg" lay-verify="title" autocomplete="off" placeholder="请输入"
+            <input type="text" name="kg" lay-verify="required|number" autocomplete="off" placeholder="请输入"
                    class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">Number</label>
+        <label class="layui-form-label">No. Of Goods</label>
         <div class="layui-input-block">
-            <input type="text" name="num" lay-verify="title" autocomplete="off" placeholder="请输入"
+            <input type="text" name="num" lay-verify="required|number" autocomplete="off" placeholder="请输入"
                    class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">Batch</label>
+        <label class="layui-form-label">Batch No.</label>
         <div class="layui-input-block">
-            <input type="text" name="batch" lay-verify="title" autocomplete="off" placeholder="请输入"
+            <input type="text" name="batch" lay-verify="required" autocomplete="off" placeholder="请输入"
                    class="layui-input">
+        </div>
+    </div>
+            <div class="layui-form-item">
+        <label class="layui-form-label">State</label>
+        <div class="layui-input-block">
+            <input type="radio" name="state" value="1" title="全部出库" checked>
+            <input type="radio" name="state" value="2" title="部分出库">
+            <input type="radio" name="state" value="3" title="重新入库">
         </div>
     </div>
     <div class="layui-form-item">
         <div class="layui-input-block">
             <button type="submit" class="layui-btn" lay-submit lay-filter="demo-val">确认</button>
             <button type="button" onclick="window.history.back ();" class="layui-btn layui-btn-primary">取消</button>
+            <button type="button" lay-on="get-rfid" class="layui-btn layui-btn-primary">返回</button>
         </div>
     </div>
 </form>
 <script src="{{ url_for('static', filename='layui/layui.js') }}"></script>
 <script>
-    layui.use(function () {
+    layui.use(['util', 'form'], function () {
+        var util = layui.util;
         var $ = layui.$;
         var form = layui.form;
         form.val('demo-val-filter', {
@@ -92,6 +102,7 @@
             , "kg": '{{ data.kg }}'
             , "diameter": '{{ data.diameter }}'
             , "lm": '{{ data.lm }}'
+            , "state": '{{ data.state }}'
         });
         // 表单取值
         layui.$('#LAY-component-form-getval').on('click', function () {
@@ -110,6 +121,11 @@
                 }
             })
             return false; // 阻止默认 form 跳转
+        });
+                util.on('lay-on', {
+            "get-rfid": function () {
+                window.location.href = '/outbound_manage'
+            }
         });
     })
 </script>

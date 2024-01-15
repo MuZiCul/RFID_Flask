@@ -14,21 +14,21 @@
 </head>
 <body>
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
-    <legend>inbound_manage</legend>
+    <legend>入库货物管理</legend>
 </fieldset>
 
-{#<div style="margin-top: 20px;border: 1px solid #eee;">#}
-{#    <div style="padding: 1px" class="demoTable">#}
-{#        <div class="layui-inline" style="width: 90%;">#}
-{#            <input placeholder="Please enter a keyword to search" class="layui-input" id="demoReload"#}
-{#                   style="border: none;border-style: unset">#}
-{#        </div>#}
-{#        <div class="layui-inline layui-word-aux layui-font-gray" style="float: right;padding-right: unset">#}
-{#            <button class="layui-btn layui-btn-primary" data-type="reload" style="border: none;" title="SearchFile">#}
-{#                <i class="layui-icon layui-icon-search"></i></button>#}
-{#        </div>#}
-{#    </div>#}
-{#</div>#}
+<div style="margin-top: 20px;border: 1px solid #eee;">
+    <div style="padding: 1px" class="demoTable">
+        <div class="layui-inline" style="width: 90%;">
+            <input placeholder="Please enter a keyword to search" class="layui-input" id="demoReload"
+                   style="border: none;border-style: unset">
+        </div>
+        <div class="layui-inline layui-word-aux layui-font-gray" style="float: right;padding-right: unset">
+            <button class="layui-btn layui-btn-primary" data-type="reload" style="border: none;" title="SearchFile">
+                <i class="layui-icon layui-icon-search"></i></button>
+        </div>
+    </div>
+</div>
 
 <table class="layui-hide" id="test" lay-filter="test"></table>
 <script type="text/html" id="barDemo">
@@ -49,33 +49,40 @@
             , even: 'true'
             , id: 'testReload'
             , totalRow: true
-            ,page: 'true'
+            , page: 'true'
             , cols: [[
-                {field: 'id', align: 'center', title: 'Tag Sequence', templet: function (res) {
+                {
+                    field: 'id', align: 'center', title: 'Tag Sequence', templet: function (res) {
                         return ('0000' + res.id).slice(-4);
-                    }}
-                ,{field: 'rfid', align: 'center', title: 'RFID'}
-                                , {field: 'lm', title: 'Linear Meter'}
-                , {field: 'diameter', title: 'Diameter'}
-                , {field: 'kg', title: 'KG'}
-                , {field: 'num', align: 'center', title: 'Number'}
-               , {
-                    field: 'batch', align: 'center', title: 'Batch',}
+                    }
+                }
+                , {field: 'rfid', align: 'center', title: 'RFID'}
+                , {field: 'lm', align: 'center', title: 'Linear Meter'}
+                , {field: 'diameter', align: 'center', title: 'Diameter'}
+                , {field: 'kg', align: 'center', title: 'KG'}
+                , {field: 'num', align: 'center', title: 'No. Of Goods'}
+                , {field: 'batch', align: 'center', title: 'Batch No.'}
                 , {
                     field: 'state', align: 'center', title: 'State', templet: function (res) {
-                        if (res.state===0){
+                        if (res.state === 0) {
                             return '损坏'
-                        }else if (res.state===1){
+                        } else if (res.state === 1) {
                             return '正常'
-                        }else if (res.state===2){
+                        } else if (res.state === 2) {
                             return '丢失'
-                        }else if (res.state===3){
+                        } else if (res.state === 3) {
                             return '返工'
+                        } else if (res.state === 4) {
+                            return '重新入库'
+                        } else if (res.state === 5) {
+                            return '部分出库'
+                        } else if (res.state === 6) {
+                            return '全部出库'
                         }
 
                     }
                 }
-                , {field: 'create_date', align: 'center', title: '入库时间'}
+                , {field: 'create_date', align: 'center', title: '订单时间'}
                 , {fixed: 'right', align: 'center', title: 'operation', width: 134, minWidth: 125, toolbar: '#barDemo'}
             ]]
             {#, page: true#}
@@ -107,10 +114,7 @@
                     $.ajax({
                         url: '/inbound_del', method: 'get', data: {'id': data.id}, success: function (data) {
                             layer.msg(data.msg)
-                            if (data.code === '200') {
-                                obj.del();
-                            }
-                            if (data.code === 200) {
+                            if (200 === data.code || '200' === data.code) {
                                 obj.del();
                             }
                             layer.close(index);

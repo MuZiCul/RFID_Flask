@@ -15,7 +15,7 @@
 </head>
 <body>
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
-    <legend>入库货物详情</legend>
+    <legend>用户信息修改</legend>
 </fieldset>
 <form class="layui-form" action="form.html" lay-filter="demo-val-filter">
     {#    <div class="layui-btn-container" style="margin-bottom: 6px; text-align: center;">#}
@@ -23,76 +23,59 @@
     {#        <button type="button" class="layui-btn layui-btn-normal" id="LAY-component-form-getval">取值</button>#}
     {#    </div>#}
     <div class="layui-form-item">
-        <label class="layui-form-label">Sequence</label>
+        <label class="layui-form-label">Number</label>
         <div class="layui-input-block">
             <input type="text" name="id" lay-verify="required" autocomplete="off" placeholder="请输入" readonly
                    class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">RFID</label>
+        <label class="layui-form-label">用户名</label>
         <div class="layui-input-block">
-            <input type="text" name="rfid" lay-verify="required" autocomplete="off" placeholder="请输入"
-                   class="layui-input">
-        </div>
-    </div>
-        <div class="layui-form-item">
-        <label class="layui-form-label">Linear Meter</label>
-        <div class="layui-input-block">
-            <input type="text" name="lm" lay-verify="required" autocomplete="off" placeholder="请输入"
-                   class="layui-input">
-        </div>
-    </div>
-        <div class="layui-form-item">
-        <label class="layui-form-label">Diameter</label>
-        <div class="layui-input-block">
-            <input type="text" name="diameter" lay-verify="required" autocomplete="off" placeholder="请输入"
-                   class="layui-input">
-        </div>
-    </div>
-        <div class="layui-form-item">
-        <label class="layui-form-label">KG</label>
-        <div class="layui-input-block">
-            <input type="text" name="kg" lay-verify="required|number" autocomplete="off" placeholder="请输入"
+            <input type="text" name="username" lay-verify="required" autocomplete="off" placeholder="请输入"
                    class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">No. Of Goods</label>
+        <label class="layui-form-label">password</label>
         <div class="layui-input-block">
-            <input type="text" name="num" lay-verify="required|number" autocomplete="off" placeholder="请输入"
+            <input type="password" lay-affix="eye" name="password" autocomplete="off" placeholder="视情况而定，非必填项" required
                    class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">Batch No.</label>
+        <label class="layui-form-label">email</label>
         <div class="layui-input-block">
-            <input type="text" name="batch" lay-verify="required" autocomplete="off" placeholder="请输入"
+            <input type="text" name="email" lay-verify="required|email" autocomplete="off" placeholder="请输入"
                    class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">WarehouseID</label>
+        <label class="layui-form-label">phone</label>
         <div class="layui-input-block">
-            <input type="text" name="warehouse" lay-verify="required" autocomplete="off" placeholder="请输入"
+            <input type="text" name="phone" autocomplete="off" placeholder="请输入" required
                    class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">State</label>
+        <label class="layui-form-label">sex</label>
         <div class="layui-input-block">
-            <input type="radio" name="state" value="0" title="损坏">
-            <input type="radio" name="state" value="1" title="正常" checked>
-            <input type="radio" name="state" value="2" title="丢失">
-            <input type="radio" name="state" value="3" title="返工">
-            <input type="radio" name="state" value="4" title="重新入库">
-            <input type="radio" name="state" value="5" title="部分出库">
-            <input type="radio" name="state" value="6" title="全部出库">
+            <input type="radio" name="sex" value="1" title="man" checked>
+            <input type="radio" name="sex" value="0" title="woman">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">role</label>
+        <div class="layui-input-block">
+            <select name="type">
+                <option value="1">admin</option>
+                <option value="0" selected>other</option>
+            </select>
         </div>
     </div>
     <div class="layui-form-item">
         <div class="layui-input-block">
-            <button type="submit" class="layui-btn" lay-submit lay-filter="demo-val">确认</button>
+            <button type="submit" class="layui-btn" lay-submit lay-filter="demo-val">提交修改</button>
             <button type="button" onclick="window.history.back ();" class="layui-btn layui-btn-primary">取消</button>
             <button type="button" lay-on="get-rfid" class="layui-btn layui-btn-primary">返回</button>
         </div>
@@ -106,14 +89,11 @@
         var form = layui.form;
         form.val('demo-val-filter', {
             "id": ('0000' + '{{ data.id }}').slice(-4)
-            , "rfid": '{{ data.rfid }}'
-            , "num": '{{ data.num }}'
-            , "batch": '{{ data.batch }}'
-            , "state": '{{ data.state }}'
-            , "kg": '{{ data.kg }}'
-            , "diameter": '{{ data.diameter }}'
-            , "lm": '{{ data.lm }}'
-            , "warehouse": '{{ data.warehouse }}'
+            , "username": '{{ data.username }}'
+            , "email": '{{ data.email }}'
+            , "phone": '{{ data.phone }}'
+            , "sex": '{{ data.sex }}'
+            , "type": '{{ data.type }}'
         });
         // 表单取值
         layui.$('#LAY-component-form-getval').on('click', function () {
@@ -125,7 +105,7 @@
             var field = data.field; // 获取表单字段值
             // 显示填写结果，仅作演示用
             $.ajax({
-                url: '/change_inbound_data', method: 'post', data: field, success: function (data) {
+                url: '/change_user_data', method: 'post', data: field, success: function (data) {
                     if (200 === data.code || '200' === data.code) {
                         layer.msg(data.msg)
                     }
@@ -133,9 +113,9 @@
             })
             return false; // 阻止默认 form 跳转
         });
-                util.on('lay-on', {
+        util.on('lay-on', {
             "get-rfid": function () {
-                window.location.href = '/inbound_manage'
+                window.location.href = '/user_manage'
             }
         });
     })
